@@ -1,9 +1,12 @@
+import os
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
-# Fuzzy membership function (x, mean, stddev)
+
 def membership_fn(x, mean, stddev):
+    if stddev == 0:
+        stddev = 1e-8
     return np.exp(-((x - mean) ** 2) / (2 * (stddev ** 2)))
 
 # Fuzzy histogram equalization function
@@ -47,30 +50,28 @@ def fuzzy_histogram_equalization(image, block_size=16):
             membership = membership_fn(equalized_block, mean, stddev)
 
             # Apply fuzzy contrast adjustment
-            equalized_image[y:y + block_height, x:x + block_width] = np.clip(equalized_block * membership, 0, 255)
+            equalized_image[y:y + block_height, x:x + block_width] = np.clip(equalized_block * membership, 0, 255).astype(np.uint8)
 
     return equalized_image
 
-# Path to the image
-image_path = 'C:/Users/thinkpad/Documents/semester 5/.vscode/foto/aaa.png'
 
-# Load the image
+current_dir = os.path.dirname(__file__)
+image_path = os.path.join(current_dir, "gambar", "foto.jpg")
+
 image = cv2.imread(image_path)
 
-# Apply Fuzzy Histogram Equalization
 fhe_image = fuzzy_histogram_equalization(image)
 
-# Display the original and the equalized image
 plt.figure(figsize=(12, 6))
 
 plt.subplot(1, 2, 1)
-plt.title('Gambar Asli')
+plt.title("Gambar Asli")
 plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-plt.axis('off')
+plt.axis("off")
 
 plt.subplot(1, 2, 2)
-plt.title('Gambar setelah FHE')
-plt.imshow(fhe_image, cmap='gray')
-plt.axis('off')
+plt.title("Gambar setelah FHE")
+plt.imshow(fhe_image, cmap="gray")
+plt.axis("off")
 
 plt.show()

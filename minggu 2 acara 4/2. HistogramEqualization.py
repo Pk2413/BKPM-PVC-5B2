@@ -1,7 +1,10 @@
+import os
 import cv2
 import matplotlib.pyplot as plt
 
-image_path = r"D:\Belajar Python\foto\Backlog.png"
+current_dir = os.path.dirname(__file__)
+image_path = os.path.join(current_dir, 'gambar', 'foto.jpg')
+
 
 image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 

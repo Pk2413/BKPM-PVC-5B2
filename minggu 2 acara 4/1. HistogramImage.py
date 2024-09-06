@@ -1,5 +1,7 @@
+import os
 import cv2
 from matplotlib import pyplot as plt
+
 
 # fungsi untuk menampilkan histogram citra
 def tampilkan_histogram_citra(image_path):
@@ -9,20 +11,22 @@ def tampilkan_histogram_citra(image_path):
     # konversi citra dari BGR (format default openCV) ke RGB
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    channels = ('r', 'g', 'b')
-    colors = ('red', 'green', 'blue')
+    channels = ("r", "g", "b")
+    colors = ("red", "green", "blue")
 
-    plt.figure(figsize=(10,5))
+    plt.figure(figsize=(10, 5))
 
     for i, color in enumerate(colors):
         histogram = cv2.calcHist([image], [i], None, [256], [0, 256])
         plt.plot(histogram, color=color)
         plt.xlim([0, 256])
 
-    plt.title('Histogram untuk setiap kanal warna')
-    plt.xlabel('Intensitas Pixel')
-    plt.ylabel('Jumlah pixel')
+    plt.title("Histogram untuk setiap kanal warna")
+    plt.xlabel("Intensitas Pixel")
+    plt.ylabel("Jumlah pixel")
+    plt.show()
 
-    path = r'D:\Belajar Python\foto\Backlog.png'
+current_dir = os.path.dirname(__file__)
+path = os.path.join(current_dir, 'gambar', 'foto.jpg')
 
-    tampilkan_histogram_citra(path)
+tampilkan_histogram_citra(path)
